@@ -17,7 +17,11 @@ import { taskStatus } from 'src/app/core/models/task.model';
 import { Person } from 'src/app/core/models/person.model';
 import { SkillService } from 'src/app/services/skill.service';
 import { PeopleService } from 'src/app/services/people.service';
-import { map, Observable, startWith } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { addTask } from 'src/app/core/state/task.actions';
+import { AppState } from 'src/app/app.state';
+import { random } from 'src/app/core/utils/random';
 
 export const MY_FORMATS = {
   parse: {
@@ -65,6 +69,7 @@ export class TaskDialogComponent implements OnInit {
   private taskService = inject(TaskService);
   private skillService = inject(SkillService);
   private peopleService = inject(PeopleService);
+  private taskStore = inject(Store<AppState>);
   private fb = inject(FormBuilder);
 
   form!: FormGroup;
@@ -143,7 +148,10 @@ export class TaskDialogComponent implements OnInit {
     if (this.form.valid && this.associatedPerson.length > 0 && !this.validPeople && !this.validSkills) {
       const formValue = this.form.value;
       formValue.expirationDate = new Date(formValue.expirationDate).toString();
+      formValue.id = random();
       this.taskService.addTask(formValue);
+      this.taskStore.dispatch(addTask(formValue));
+      this.dialogRef.close();
     }
   }
 }

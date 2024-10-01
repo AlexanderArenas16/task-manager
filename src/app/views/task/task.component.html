@@ -34,7 +34,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions class="card-actions-custom">
-      <button *ngIf="t.status === 'pending'" mat-mini-fab color="primary" (click)="completeTask(t.id)"><mat-icon>check</mat-icon></button>
+      <button *ngIf="t.status === 'pending'" mat-mini-fab color="primary" (click)="completeTask(t)"><mat-icon>check</mat-icon></button>
       <span *ngIf="t.status === 'complete'">Task complete</span>
     </mat-card-actions>
   </mat-card>
