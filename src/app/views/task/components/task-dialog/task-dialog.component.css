@@ -1,0 +1,29 @@
+.form-task {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-person-title {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 1rem;
+}
+
+.add-person-title > h4 {
+    margin: 0;
+}
+
+.form-person-container {
+    margin: 1rem;
+}
+
+.form-field-person {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field-skill {
+    display: flex;
+    gap: 2rem;
+}

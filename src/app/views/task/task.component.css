@@ -1,0 +1,35 @@
+.task-container {
+    width: 80%;
+    height: 90%;
+    display: flex;
+}
+
+.task-card-header {
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.skill-item {
+    margin: 0.3rem;
+}
+
+.task-filter-container {
+    display: flex;
+    gap: 1rem;
+    margin: 3rem auto;
+    padding: 0 3rem;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.mat-card-custom {
+    justify-content: space-between;
+}
+
+.card-actions-custom {
+    flex-direction: row-reverse;
+}

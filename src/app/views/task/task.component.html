@@ -1,0 +1,41 @@
+<div class="task-filter-container">
+  <mat-form-field>
+    <mat-label>Select</mat-label>
+    <mat-select (valueChange)="applyFilter($event)">
+      <mat-option value="all">All</mat-option>
+      <mat-option value="complete">Complete</mat-option>
+      <mat-option value="pending">Pending</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <button mat-fab color="primary" (click)="openDialog('0ms', '0ms')"><mat-icon>add</mat-icon></button>
+</div>
+
+<div class="grid-auto pd-3">
+  <mat-card class="mat-card-custom" *ngFor="let t of taskListFilter" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ t.name }}</mat-card-title>
+      <mat-card-subtitle><strong>Expiration: </strong> {{ t.expirationDate | date }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngFor="let p of t.associatedPerson">
+        <div class="info-group">
+          <strong>Name: </strong>
+          <span class="text-hidden">{{ p.name }}</span>
+        </div>
+        <div class="info-group">
+          <strong>Age: </strong>
+          <span>{{ p.age }}</span>
+        </div>
+        <div>
+          <strong>Skill: </strong>
+          <p class="skill-item" *ngFor="let s of p.skills">{{ s }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="card-actions-custom">
+      <button *ngIf="t.status === 'pending'" mat-mini-fab color="primary" (click)="completeTask(t.id)"><mat-icon>check</mat-icon></button>
+      <span *ngIf="t.status === 'complete'">Task complete</span>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>Add task</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="form-task">
+    <mat-form-field class="example-full-width">
+      <mat-label>Name task</mat-label>
+      <input type="text" matInput formControlName="name" placeholder="Ex. name task">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Expiration:</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="expirationDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div formArrayName="associatedPerson" class="form-task">
+      <div class="add-person-title">
+        <h4>Associated persons</h4>
+        <button mat-mini-fab color="primary" (click)="addPerson()"><mat-icon>add</mat-icon></button>
+      </div>
+      <div class="form-person-container" *ngFor="let person of associatedPerson.controls; let i=index" [formGroupName]="i">
+        <div class="form-field-person">
+          <!-- <mat-form-field class="example-full-width">
+            <mat-label>Name</mat-label>
+            <input type="text" matInput formControlName="name" placeholder="Ex. name task">
+          </mat-form-field> -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Name</mat-label>
+            <mat-select formControlName="name">
+              <mat-option *ngFor="let option of (peopleListFiltered$ | async)" [value]="option.name">{{ option.name }}</mat-option>
+            </mat-select>
+            <!-- <input type="text"
+                placeholder="Pick one"
+                aria-label="Number"
+                matInput
+                formControlName="name"
+                [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of (peopleListFiltered$ | async)" [value]="option.name">{{ option.name }}</mat-option>
+            </mat-autocomplete> -->
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Age</mat-label>
+            <input type="number" matInput formControlName="age" placeholder="Ex. name task">
+          </mat-form-field>
+        </div>
+
+        <div formArrayName="skills">
+          <div class="add-person-title">
+            <h4>Skills</h4>
+            <button mat-mini-fab color="primary" (click)="addSkill(i)"><mat-icon>add</mat-icon></button>
+          </div>
+          <div class="form-field-skill" *ngFor="let skill of personSkills(i).controls; let j=index">
+            <mat-form-field class="example-full-width">
+              <mat-select [formControlName]="j">
+                <mat-option *ngFor="let skill of skillList" [value]="skill">{{ skill }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-fab extended (click)="removeSkill(i, j)" color="warn"><mat-icon>delete</mat-icon> Remove Skill</button>
+          </div>
+        </div>
+        <button mat-fab extended (click)="removePerson(i)" color="warn"><mat-icon>delete</mat-icon> Remove person</button>
+      </div>
+    </div>
+  </form>
+  <div class="form-task">
+    <span class="color-red" *ngIf="this.associatedPerson.length <= 0">You must have minimum one person</span>
+    <span class="color-red" *ngIf="validPeople">You have a duplicate person</span>
+    <span class="color-red" *ngIf="validSkills">You must have minimum one skill for person</span>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button [disabled]="!form.valid" color="primary" (click)="onSubmit()">Add</button>
+</mat-dialog-actions>
